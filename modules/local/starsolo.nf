@@ -13,6 +13,7 @@ process STARSOLO {
     path assets_dir
 
     output:
+<<<<<<< HEAD
     tuple val(meta), path("${meta.id}.matrix/")       , emit: matrix
     tuple val(meta), path('*d.out.bam')               , emit: bam
     tuple val(meta), path('*.Solo.out')               , emit: solo_out
@@ -20,6 +21,14 @@ process STARSOLO {
     path "*.Solo.out/GeneFull_Ex50pAS/Summary.csv"    , emit: summary
     tuple val(meta), path("*.Solo.out/GeneFull_Ex50pAS/CellReads.stats")    , emit: read_stats
     path "${meta.id}.matrix/filtered/barcodes.tsv.gz" , emit: barcodes
+=======
+    tuple val(meta), path("${meta.id}.Solo.out/GeneFull_Ex50pAS/raw") , emit: raw_matrix
+    tuple val(meta), path('*d.out.bam')               , emit: bam
+    tuple val(meta), path('*.Solo.out')               , emit: solo_out
+    tuple val(meta), path('*Log.final.out')                            , emit: log_final
+    tuple val(meta), path("*.Solo.out/GeneFull_Ex50pAS/Summary.csv")    , emit: summary
+    tuple val(meta), path("*.Solo.out/GeneFull_Ex50pAS/CellReads.stats")    , emit: read_stats
+>>>>>>> upstream/master
     path  "versions.yml"                      , emit: versions
 
     tuple val(meta), path('*sortedByCoord.out.bam')  , emit: bam_sorted
@@ -45,6 +54,7 @@ process STARSOLO {
         --runThreadN ${task.cpus} \\
         $args
 
+<<<<<<< HEAD
     if [ -d ${prefix}.Solo.out ]; then
         # Backslashes still need to be escaped (https://github.com/nextflow-io/nextflow/issues/67)
         find ${prefix}.Solo.out \\( -name "*.tsv" -o -name "*.mtx" \\) -exec gzip -f {} \\;
@@ -52,6 +62,8 @@ process STARSOLO {
 
     mkdir ${prefix}.matrix
     mv ${prefix}.Solo.out/GeneFull_Ex50pAS/{raw,filtered} ./${prefix}.matrix/
+=======
+>>>>>>> upstream/master
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
