@@ -3,19 +3,21 @@ def multiqc_sgr_config():
 
     """ Set up MultiQC config defaults for this package """
     sgr_search_patterns = {
-        "scrna/stats": {"fn": "*scrna.*stats.json"},
-        "scrna/umi_count": {
-            "fn": "*scrna.umi_count.json",
+        "scdynascope/stats": {"fn": "*scdynascope.*stats.json"},
+        "scdynascope/umi_count": {
+            "fn": "*scdynascope.umi_count.json",
         },
-        "scrna/saturation": {
-            "fn": "*scrna.saturation.json",
+        "scdynascope/saturation": {
+            "fn": "*scdynascope.saturation.json",
         },
-        "scrna/median_gene": {
-            "fn": "*scrna.median_gene.json",
+        "scdynascope/median_gene": {
+            "fn": "*scdynascope.median_gene.json",
         },
-        "scsnp/stats": {"fn": "*scsnp.*stats.json"},
-        "scsnp/gene": {"fn": "*scsnp.gene.json"},
-        "scsnp/count": {"fn": "*scsnp.count.json"},
-        "scsnp/meta": {"fn": "*scsnp.meta.json"},
+        "scdynascope/substitution": {
+            "fn": "*scdynascope.substitution.json"
+        },
+        "scdynascope/tor": {
+            "fn": "*scdynascope.tor.json"
+        },
     }
     config.update_dict(config.sp, sgr_search_patterns)

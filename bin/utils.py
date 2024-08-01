@@ -84,8 +84,6 @@ def add_log(func):
 
     wrapper.logger = logger
     return wrapper
-<<<<<<< HEAD
-=======
 
 
 def write_multiqc(data, sample, assay, step):
@@ -144,4 +142,3 @@ def get_umi_count(rbs, umis, cbs, sample):
     for i in range(MAX_CELL, n, 1000):
         plot_data[bg][i + 1] = int(a[i][0])
     return plot_data
->>>>>>> upstream/master

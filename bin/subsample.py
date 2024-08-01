@@ -30,19 +30,6 @@ def get_records(bam_file):
     cb_int = {}
     ub_int = {}
     gx_int = {}
-<<<<<<< HEAD
-    name_int = {}
-    n_cb = n_ub = n_gx = n_read = 0
-    with pysam.AlignmentFile(bam_file) as bam:
-        for record in bam:
-            if record.query_name in name_int:  # already added
-                continue
-            cb = record.get_tag("CB")
-            ub = record.get_tag("UB")
-            gx = record.get_tag("GX")
-
-            if all(x != "-" for x in (cb, ub, gx)):
-=======
     n_cb = n_ub = n_gx = n_read = 0
     dup_align_read_names = set()
     with pysam.AlignmentFile(bam_file) as bam:
@@ -56,7 +43,6 @@ def get_records(bam_file):
                         continue
                     else:
                         dup_align_read_names.add(record.query_name)
->>>>>>> upstream/master
                 # use int instead of str to avoid memory hog
                 if cb not in cb_int:
                     n_cb += 1
@@ -69,10 +55,6 @@ def get_records(bam_file):
                     gx_int[gx] = n_gx
                 a.append((cb_int[cb], ub_int[ub], gx_int[gx]))
                 n_read += 1
-<<<<<<< HEAD
-                name_int[record.query_name] = n_read
-=======
->>>>>>> upstream/master
     return a, cb_int
 
 

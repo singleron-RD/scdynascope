@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    singleron-RD/scrna
+    singleron-RD/scdynascope
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/singleron-RD/scrna
+    Github : https://github.com/singleron-RD/scdynascope
 ----------------------------------------------------------------------------------------
 */
 
@@ -15,9 +15,9 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { SCRNA  } from './workflows/scrna'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_scrna_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_scrna_pipeline'
+include { SCDYNASCOPE  } from './workflows/scdynascope'
+include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_scdynascope_pipeline'
+include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_scdynascope_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,7 +28,7 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_scrn
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow SINGLERONRD_SCRNA {
+workflow SINGLERONRD_SCDYNASCOPE {
 
     take:
     samplesheet // channel: samplesheet read in from --input
@@ -38,12 +38,12 @@ workflow SINGLERONRD_SCRNA {
     //
     // WORKFLOW: Run pipeline
     //
-    SCRNA (
+    SCDYNASCOPE (
         samplesheet
     )
 
     emit:
-    multiqc_report = SCRNA.out.multiqc_report // channel: /path/to/multiqc_report.html
+    multiqc_report = SCDYNASCOPE.out.multiqc_report // channel: /path/to/multiqc_report.html
 
 }
 /*
@@ -72,7 +72,7 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    SINGLERONRD_SCRNA (
+    SINGLERONRD_SCDYNASCOPE (
         PIPELINE_INITIALISATION.out.samplesheet
     )
 
@@ -86,7 +86,7 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        SINGLERONRD_SCRNA.out.multiqc_report
+        SINGLERONRD_SCDYNASCOPE.out.multiqc_report
     )
 }
 

@@ -1,15 +1,11 @@
-# singleron-RD/scrna: Usage
+# singleron-RD/scdynascope: Usage
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow.
 
 ## Samplesheet input
 
-<<<<<<< HEAD
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
-=======
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below. An example `samplesheet.csv` can be found in the [test data repository](https://github.com/singleron-RD/scrna_test_data/tree/master/GEXSCOPE-V2-human).
->>>>>>> upstream/master
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below. An example `samplesheet.csv` can be found in the [test data repository](https://github.com/singleron-RD/scdynascope_test_data/tree/master/DYNASCOPE-human).
 
 ```bash
 --input '[path to samplesheet file]'
@@ -24,66 +20,18 @@ You will need to create a samplesheet with information about the samples you wou
 > [!NOTE]
 > fastq_1 and fastq_2 must be full path. Relative path are not allowed.
 
-### Multiple runs of the same sample
 
-<<<<<<< HEAD
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. Below is an example for the same sample sequenced across 3 lanes:
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L004_R1_001.fastq.gz,AEG588A1_S1_L004_R2_001.fastq.gz
-```
-=======
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. 
->>>>>>> upstream/master
-
-### Create `samplesheet.csv` using helper script
-
-When you have many samples, manually creating `samplesheet.csv` can be tedious and error-prone. There is a python script [manifest.py](https://github.com/singleron-RD/sccore/blob/main/sccore/cli/manifest.py) that can help you create a `samplesheet.csv` file.
-
-```
-pip install sccore
-manifest -m manifest.csv -f /workspaces/scrna_test_data/GEXSCOPE-V2
-```
-
-<<<<<<< HEAD
-`-m --manifest` Path to the manifest CSV file containing prefix-sample mapping.
-
-`-f --folders` Comma-separated paths to folders to search for fastq files.
-
-manifest.csv
-
-```
-sample,prefix
-X,prefixX
-Y,prefixY
-```
-
-/workspaces/scrna_test_data/GEXSCOPE-V2
-```
-prefixY_S1_L001_R1_001.fastq.gz  prefixY_S1_L002_R1_001.fastq.gz  prefixX_R1.fastq.gz
-prefixY_S1_L001_R2_001.fastq.gz  prefixY_S1_L002_R2_001.fastq.gz  prefixX_R2.fastq.gz
-```
-
-=======
-Recursively search the specified folders for fastq files and (optional) matched barcode files.
-
-`-m --manifest` Path to the manifest CSV file containing mappings between fastq file prefixes and sample names. An example `manifest.csv` can be found in the [test data repository](https://github.com/singleron-RD/scrna_test_data/tree/master/GEXSCOPE-V2-human).
-
-`-f --folders` Comma-separated paths to folders to search for fastq files. If `--match` is used, all `barcode.tsv.gz` files with sample name in the full path will also be searched.
->>>>>>> upstream/master
 
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run singleron-RD/scrna \
+nextflow run singleron-RD/scdynascope \
  --input ./samplesheet.csv \
  --outdir ./results \
  --star_genome path_to_star_genome_index \
+ --gtf path_to_gtf_file \
  -profile docker
 ```
 
@@ -102,16 +50,10 @@ If you wish to repeatedly use the same parameters for multiple runs, rather than
 
 Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
 
-<<<<<<< HEAD
-> [!WARNING]
-> Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
-
-=======
->>>>>>> upstream/master
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run singleron-RD/scrna -profile docker -params-file params.yaml
+nextflow run singleron-RD/scdynascope -profile docker -params-file params.yaml
 ```
 
 with `params.yaml` containing:
@@ -120,6 +62,7 @@ with `params.yaml` containing:
 input: './samplesheet.csv'
 outdir: './results/'
 star_genome: 'path_to_star_genome_index'
+gtf: 'path_to_gtf_file'
 <...>
 ```
 
@@ -127,7 +70,7 @@ If you prefer a web-based graphical interface or an interactive command-line wiz
 
 ```
 pip install nf-core
-nf-core launch singleron-RD/scrna
+nf-core launch singleron-RD/scdynascope
 ```
 
 ### Create genome index
@@ -149,8 +92,6 @@ When running data from the same genome later, you can provide `star_genome` to s
 star_genome: "/workspaces/test/outs/star_genome/human.GRCh38.99.MT/"
 ```
 
-<<<<<<< HEAD
-=======
 ### Cell-calling algorithm
 
 STARsolo implements two [cell-calling algorithms](https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md#cell-filtering-calling): Knee filtering(`cellranger2.2`) and EmptyDrop-like filtering(`EmptyDrops_CR`). EmptyDrop-like filtering considers more barcodes with low UMI as real cells, which helps to recover immune cells with low RNA content, but there is also a risk of including more background barcodes.
@@ -160,14 +101,13 @@ The cell-calling algorithm is controlled by the `soloCellFilter` parameter, for 
 soloCellFilter: EmptyDrops_CR
 ```
 
->>>>>>> upstream/master
 ### Running the pipeline with test data
 
 This pipeline contains a small test data. The test config file can be found [here](../conf/test.config).
 Run the following command to test
 
 ```
-nextflow run singleron-RD/scrna -profile test,docker --outdir results
+nextflow run singleron-RD/scdynascope -profile test,docker --outdir results
 ```
 
 ### Updating the pipeline
@@ -175,21 +115,21 @@ nextflow run singleron-RD/scrna -profile test,docker --outdir results
 When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available - even if the pipeline has been updated since. To make sure that you're running the latest version of the pipeline, make sure that you regularly update the cached version of the pipeline:
 
 ```bash
-nextflow pull singleron-RD/scrna
+nextflow pull singleron-RD/scdynascope
 ```
 
 > [!NOTE]
 > This command might fail if you have trouble connecting to github. In this case, you can manually git clone the master branch and run with the path to the folder.
 > ```
-> git clone https://github.com/singleron-RD/scrna.git
-> nextflow run /workspace/pipeline/scrna ...
+> git clone https://github.com/singleron-RD/scdynascope.git
+> nextflow run /workspace/pipeline/scdynascope ...
 > ```
 
 ### Reproducibility
 
 It is a good idea to specify a pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [singleron-RD/scrna releases page](https://github.com/singleron-RD/scrna/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
+First, go to the [singleron-RD/scdynascope releases page](https://github.com/singleron-RD/scdynascope/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
 
@@ -243,8 +183,6 @@ Specify this when restarting a pipeline. Nextflow will use cached results from a
 
 You can also supply a run name to resume a specific run: `-resume [run-name]`. Use the `nextflow log` command to show previous run names.
 
-<<<<<<< HEAD
-=======
 ### `-bg`
 
 Nextflow handles job submissions and supervises the running jobs. The Nextflow process must run until the pipeline is finished.
@@ -254,7 +192,6 @@ The Nextflow `-bg` flag launches Nextflow in the background, detached from your 
 Alternatively, you can use `screen` / `tmux` or similar tool to create a detached session which you can log back into at a later time.
 Some HPC setups also allow you to run nextflow within a cluster job submitted your job scheduler (from where it submits more jobs).
 
->>>>>>> upstream/master
 ### `-c`
 
 Specify the path to a specific config file (this is a core Nextflow command). See the [nf-core website documentation](https://nf-co.re/usage/configuration) for more information.
@@ -263,7 +200,7 @@ Specify the path to a specific config file (this is a core Nextflow command). Se
 
 ### Resource requests
 
-Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](../conf/base.config#L18) it will automatically be resubmitted with higher requests (2 x original). If it still fails after the attempt then the pipeline execution is stopped.
+Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](../conf/base.config#L19) it will automatically be resubmitted with higher requests (2 x original). If it still fails after the attempt then the pipeline execution is stopped.
 
 To change the resource requests, please see the [max resources](https://nf-co.re/docs/usage/configuration#max-resources) and [tuning workflow resources](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources) section of the nf-core website.
 
@@ -295,18 +232,6 @@ We recommend providing a compute `params.vm_type` of `Standard_D16_v3` VMs by de
 Note that the choice of VM size depends on your quota and the overall workload during the analysis.
 For a thorough list, please refer the [Azure Sizes for virtual machines in Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes).
 
-<<<<<<< HEAD
-## Running in the background
-
-Nextflow handles job submissions and supervises the running jobs. The Nextflow process must run until the pipeline is finished.
-
-The Nextflow `-bg` flag launches Nextflow in the background, detached from your terminal so that the workflow does not stop if you log out of your session. The logs are saved to a file.
-
-Alternatively, you can use `screen` / `tmux` or similar tool to create a detached session which you can log back into at a later time.
-Some HPC setups also allow you to run nextflow within a cluster job submitted your job scheduler (from where it submits more jobs).
-
-=======
->>>>>>> upstream/master
 ## Nextflow memory requirements
 
 In some cases, the Nextflow Java virtual machines can start to request a large amount of memory.

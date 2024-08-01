@@ -7,6 +7,12 @@
   - [protocol_cmd](#protocol_cmd)
   - [starsolo](#starsolo)
   - [starsolo_summary](#starsolo_summary)
+  - [split\_bam](#split_bam)
+  - [conversion](#conversion)
+  - [conversion\_merge](#conversion_merge)
+  - [substitution](#substitution)
+  - [labeled](#labeled)
+  - [labeled\_summary](#labeled_summary)
   - [multiqc-sgr](#multiqc-sgr)
   - [pipeline_info](#pipeline_info)
 
@@ -78,6 +84,41 @@ When you have questions, [STAR’s github issue](https://github.com/alexdobin/ST
 ## starsolo_summary
 
 Extract data for visualization from starsolo result files.
+
+## split_bam
+
+Split bam file for downstream analysis in parallel.
+
+## conversion
+
+Get conversion for each read and add tags. 
+
+**Output files**
+
+- `{sample}.PosTag.bam` BAM file with conversion tags added.
+- `{sample}.PosTag.csv` A list of sites of the specified conversion type.
+- `{sample}.snp.csv` Candidate snp sites obtained according to the screening conditions.
+
+## substitution
+
+Computes the overall conversion rates in reads and plots a barplot.
+
+**Output files**
+
+- `{sample}.substitution.tsv` The overall substitution rates for each conversion type in reads.
+
+## labeled
+
+Quantify unlabeled and labeled RNA. (Labeled samples only)
+
+**Output files**
+
+- `{sample}.matrix/labeled` labeled matrix
+- `{sample}.matrix/unlabeled` unlabeled matrix
+
+## labeled_summary
+
+Boxplots for TOR rates distribution of cells or genes.
 
 ## multiqc-sgr
 

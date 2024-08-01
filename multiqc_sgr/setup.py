@@ -17,6 +17,7 @@ setup(
         "multiqc.modules.v1": [
             "scsnp = multiqc_sgr.scsnp:MultiqcModule",
             "scrna = multiqc_sgr.scrna:MultiqcModule",
+            "scdynascope = multiqc_sgr.scdynascope:MultiqcModule",
         ],
         "multiqc.hooks.v1": [
             "before_config = multiqc_sgr:multiqc_sgr_config",

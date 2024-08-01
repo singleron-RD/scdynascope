@@ -1,5 +1,5 @@
 //
-// Subworkflow with functionality specific to the singleron-RD/scrna pipeline
+// Subworkflow with functionality specific to the singleron-RD/scdynascope pipeline
 //
 
 /*

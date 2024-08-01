@@ -1,8 +1,8 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/singleron-RD/scrna/master/nextflow_schema.json",
-    "title": "singleron-RD/scrna pipeline parameters",
-    "description": "single cell RNASeq nextflow pipeline",
+    "$id": "https://raw.githubusercontent.com/singleron-RD/scdynascope/master/nextflow_schema.json",
+    "title": "singleron-RD/scdynascope pipeline parameters",
+    "description": "single cell DynaSCOPE RNASeq nextflow pipeline",
     "type": "object",
     "definitions": {
         "input_output_options": {
@@ -140,15 +140,75 @@
                 },
                 "outSAMattributes": {
                     "type": "string",
-                    "default": "NH HI nM AS CR UR CB UB GX GN sF",
+                    "default": "NH HI nM AS CR UR CB UB GX GN sF MD",
                     "description": "Output tags in SAM/BAM.",
                     "help_text": "https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md#bam-tags"
                 },
                 "starsolo_extra_args": {
                     "type": "string",
-                    "default": "--clip3pAdapterSeq AAAAAAAAAAAA --outSAMtype BAM SortedByCoordinate",
+                    "default": "--clip3pAdapterSeq AAAAAAAAAAAA --outSAMtype BAM SortedByCoordinate --outFilterScoreMinOverLread 0.3 --outFilterMatchNminOverLread 0.3",
                     "description": "Extra STARSolo arguments to use."
                 }
+            }
+        },
+        "conversion_options": {
+            "title": "conversion options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "split_n_reads": {
+                    "type": "integer",
+                    "default": 1000000,
+                    "description": "Split to have approximately N reads per output file.",
+                    "help_text": "https://gatk.broadinstitute.org/hc/en-us/articles/360041849771-SplitSamByNumberOfReads-Picard"
+                },
+                "conversion_type": {
+                    "type": "string",
+                    "default": "TC",
+                    "description": "Conversion type."
+                },
+                "basequalilty": {
+                    "type": "integer",
+                    "default": 20,
+                    "description": "Base quality threshold."
+                },
+                "snp_threshold": {
+                    "type": "number",
+                    "default": 0.5,
+                    "description": "SNP threshold."
+                },
+                "snp_min_depth": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Minimum depth to call snp."
+                }
+            }
+        },
+        "labeled_options": {
+            "title": "Labeled modules",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "bg_snp": {
+                    "type": "string",
+                    "description": "Backgroup snp files, multiple files split by comma."
+                },
+                "control": {
+                    "type": "boolean",
+                    "description": "If control, skip labeled step."
+                },
+                "min_cells": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Calculate the minimum number of cells required for TOR of a gene."
+                },
+                "min_genes": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Calculate the minimum number of genes required for TOR of a cell."
+                }                
             }
         },
         "optional_modules": {
@@ -381,6 +441,12 @@
         },
         {
             "$ref": "#/definitions/starsolo_options"
+        },
+        {
+            "$ref": "#/definitions/conversion_options"
+        },
+        {
+            "$ref": "#/definitions/labeled_options"
         },
         {
             "$ref": "#/definitions/optional_modules"

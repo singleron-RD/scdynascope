@@ -17,9 +17,9 @@ class MultiqcModule(BaseMultiqcModule):
     def __init__(self):
         # Initialise the parent object
         super().__init__(
-            name="scrna",
-            anchor="scrna",
-            info="mapping, demultiplexing and quantification for single cell RNA-seq",
+            name="scdynascope",
+            anchor="scdynascope",
+            info="mapping, demultiplexing and quantification for single cell DynaSCOPE RNA-seq",
         )
         log.info(f"Running module: {self.name}")
 
@@ -38,14 +38,14 @@ class MultiqcModule(BaseMultiqcModule):
         self.general_stats_table(stat_data)
 
         # barcode rank plot
-        self.add_section(name="Barcode Rank", anchor="scrna_barcode_rank", plot=self.barcode_rank_plot(umi_count_data))
+        self.add_section(name="Barcode Rank", anchor="scdynascope_barcode_rank", plot=self.barcode_rank_plot(umi_count_data))
 
         # subsample
         if saturation_data:
-            self.add_section(name="Saturation", anchor="scrna_subsample", plot=self.saturation_plot(saturation_data))
+            self.add_section(name="Saturation", anchor="scdynascope_subsample", plot=self.saturation_plot(saturation_data))
         if median_gene_data:
             self.add_section(
-                name="Median Gene", anchor="scrna_median_gene", plot=self.median_gene_plot(median_gene_data)
+                name="Median Gene", anchor="scdynascope_median_gene", plot=self.median_gene_plot(median_gene_data)
             )
 
         # substitution    
@@ -255,8 +255,8 @@ class MultiqcModule(BaseMultiqcModule):
 
         # Config for the plot
         pconfig = {
-            "id": "scrna_barcode_rank_plot",
-            "title": "scrna: Barcode Rank",
+            "id": "scdynascope_barcode_rank_plot",
+            "title": "scdynascope: Barcode Rank",
             "ylab": "UMI counts",
             "xlab": "Barcode Rank",
             "yLog": True,
@@ -271,8 +271,8 @@ class MultiqcModule(BaseMultiqcModule):
     def saturation_plot(self, saturation_data):
         # Config for the plot
         pconfig = {
-            "id": "scrna_saturation_plot",
-            "title": "scrna: Saturation",
+            "id": "scdynascope_saturation_plot",
+            "title": "scdynascope: Saturation",
             "ylab": "Saturation",
             "xlab": "Percent of Reads",
             "height": 750,
@@ -283,8 +283,8 @@ class MultiqcModule(BaseMultiqcModule):
     def median_gene_plot(self, median_gene_data):
         # Config for the plot
         pconfig = {
-            "id": "scrna_median_gene_plot",
-            "title": "scrna: Median Gene",
+            "id": "scdynascope_median_gene_plot",
+            "title": "scdynascope: Median Gene",
             "ylab": "Median Gene",
             "xlab": "Percent of Reads",
             "height": 750,

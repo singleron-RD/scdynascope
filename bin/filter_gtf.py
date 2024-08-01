@@ -81,6 +81,20 @@ class GtfParser:
 
                 yield row, gtf_row(seqname, source, feature, start, end, score, strand, frame, attributes)
 
+    def get_id_strand(self):
+        """
+        return: {gene_id:gene_strand}
+        """
+        for _, grow in self.gtf_reader_iter():
+            if not grow:
+                continue
+            gene_id = grow.attributes['gene_id']
+            self.id_strand[gene_id] = grow.strand
+
+        return self.id_strand
+
+
+
 
 def filter_gtf(gtf_fn, out_fn, allow):
     """

@@ -9,6 +9,12 @@
   - [starsolo](#starsolo)
   - [cell\_calling](#cell_calling)
   - [starsolo\_summary](#starsolo_summary)
+  - [split\_bam](#split_bam)
+  - [conversion](#conversion)
+  - [conversion\_merge](#conversion_merge)
+  - [substitution](#substitution)
+  - [labeled](#labeled)
+  - [labeled\_summary](#labeled_summary)
   - [multiqc-sgr](#multiqc-sgr)
   - [pipeline\_info](#pipeline_info)
   - [subsample(Optional)](#subsampleoptional)
@@ -18,19 +24,9 @@
 
 - `multiqc/multiqc_report.html` HTML report containing QC metrics.
 - `cell_calling/{sample}.matrix/filtered` Gene expression matrix file contains only cell barcodes. This file should be used as input to downstream analysis tools such as Seurat and Scanpy.
-  
-Downstream analysis code snippet using [Seurat V5](https://satijalab.org/seurat/articles/pbmc3k_tutorial)
-```R
-library(Seurat)
-# Load in the matrix
-pbmc.data = Read10X(data.dir = 'starsolo/X.matrix/filtered')
-# create seurat object
-pbmc <- CreateSeuratObject(counts = pbmc.data, names.delim = ' ', project = "pbmc3k", min.cells = 3, min.features = 200)
-```
-> [!NOTE]
-> When using `CreateSeuratObject`, since the cell barcodes have underscores, you need to set `names.delim` to something other than the default underscore, such as whitespace.
-
+- `labeled/{sample}.matrix/labeled` and `labeled/{sample}.matrix/unlabeled` Labeled and unlabeled expression matrix. Gene expression matrix file contains only cell barcodes.
 - `starsolo/{sample}.Aligned.sortedByCoord.out.bam` Bam file contains coordinate-sorted reads aligned to the genome.
+- `substitution/{sample}.substitution.tsv` The overall substitution rates for each conversion type in reads.
 
 # modules
 
@@ -92,11 +88,47 @@ When you have questions, [STAR’s github issue](https://github.com/alexdobin/ST
 Run the cell filtering algorithm on the previously generated raw matrix.
 
 **Output files**
+
 - `{sample}.matrix` Raw and filtering matrix.
 
 ## starsolo_summary
 
 Extract data for visualization from starsolo result files.
+
+## split_bam
+
+Split bam file for downstream analysis in parallel.
+
+## conversion
+
+Get conversion for each read and add tags. 
+
+**Output files**
+
+- `{sample}.PosTag.bam` BAM file with conversion tags added.
+- `{sample}.PosTag.csv` A list of sites of the specified conversion type.
+- `{sample}.snp.csv` Candidate snp sites obtained according to the screening conditions.
+
+## substitution
+
+Computes the overall conversion rates in reads and plots a barplot.
+
+**Output files**
+
+- `{sample}.substitution.tsv` The overall substitution rates for each conversion type in reads.
+
+## labeled
+
+Quantify unlabeled and labeled RNA. (Labeled samples only)
+
+**Output files**
+
+- `{sample}.matrix/labeled` labeled matrix
+- `{sample}.matrix/unlabeled` unlabeled matrix
+
+## labeled_summary
+
+Boxplots for TOR rates distribution of cells or genes.
 
 ## multiqc-sgr
 

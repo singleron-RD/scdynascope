@@ -1,6 +1,6 @@
-# singleron-RD/scrna pipeline parameters
+# singleron-RD/scdynascope pipeline parameters
 
-single cell RNASeq nextflow pipeline
+single cell DynaSCOPE RNASeq nextflow pipeline
 
 ## Input/output options
 
@@ -20,11 +20,12 @@ Genome files and parameters.
 | Parameter | Description | Type | Default | Required | Hidden |
 |-----------|-----------|-----------|-----------|-----------|-----------|
 | `fasta` | Path to genome fasta. | `string` |  |  |  |
-| `gtf` | Path to genome gtf. | `string` |  |  |  |
+| `gtf` | Path to genome gtf. | `string` |  | True |  |
 | `star_genome` | Path to STAR genome directory. Required if fasta and gtf are not provided. | `string` |  |  |  |
 | `genome_name` | The generated STAR genome index will be saved under this folder. It can then be used for future pipeline runs, reducing processing times. | `string` | star_genome |  |  |
 | `keep_attributes` | Attributes in gtf to keep. | `string` | gene_biotype=protein_coding,lncRNA,antisense,IG_LV_gene,IG_V_gene,IG_V_pseudogene,IG_D_gene,IG_J_gene,IG_J_pseudogene,IG_C_gene,IG_C_pseudogene,TR_V_gene,TR_V_pseudogene,TR_D_gene,TR_J_gene,TR_J_pseudogene,TR_C_gene; |  |  |
 | `star_genome_additional_args` | Additional args to use when generate STAR genome directory. | `string` |  |  |  |
+
 
 ## Protocol options
 
@@ -35,6 +36,7 @@ Genome files and parameters.
 | `protocol` | Predefined pattern and whitelist. Can auto detect GEXSCOPE protocols. <details><summary>Help</summary><small>If set to "new", --pattern and --whitelist are required. The default is to auto-detect the protocol when running GEXSCOPE. </small></details>| `string` | auto |  |  |
 | `pattern` | A string to locate cell barcode and UMI in R1 read. For example "C9L16C9L16C9L1U12". <details><summary>Help</summary><small>C: cell barcode<br>L: Linker sequence between segments<br>U: UMI<br>T: poly T</small></details>| `string` |  |  |  |
 | `whitelist` | Barcode whitelist files. Multiple whitelists are seperated by whitespace. | `string` |  |  |  |
+
 
 ## STARSolo options
 
@@ -47,6 +49,23 @@ Genome files and parameters.
 | `soloCellFilter` | Cell-calling method. <details><summary>Help</summary><small>https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md#cell-filtering-calling</small></details>| `string` | EmptyDrops_CR 3000 0.99 10 45000 90000 500 0.01 20000 0.001 10000 |  |  |
 | `outSAMattributes` | Output tags in SAM/BAM. <details><summary>Help</summary><small>https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md#bam-tags</small></details>| `string` | NH HI nM AS CR UR CB UB GX GN sF |  |  |
 | `starsolo_extra_args` | Extra STARSolo arguments to use. | `string` | --clip3pAdapterSeq AAAAAAAAAAAA --outSAMtype BAM SortedByCoordinate |  |  |
+
+
+## Dynascope options
+
+
+
+| Parameter | Description | Type | Default | Required | Hidden |
+|-----------|-----------|-----------|-----------|-----------|-----------|
+| `control` | Whether control sample. | `boolean` | false |  |  |
+| `conversion_type` | Conversion type. | `string` | TC |  |  |
+| `basequalilty` | Base quality threshold. | `integer` | 20 |  |  |
+| `snp_threshold` | SNP threshold. | `number` | 0.5 |  |  |
+| `snp_min_depth` | Minimum depth to call snp. | `integer` | 10 |  |  |
+| `bg_snp` | Backgroup snp files, multiple files split by comma. | `string` |  |  |  |
+| `min_cells` | Calculate the minimum number of cells required for TOR of a gene. | `integer` | 10 |  |  |
+| `min_genes` | Calculate the minimum number of genes required for TOR of a cell. | `integer` | 10 |  |  |
+| `split_n_reads` | Split to have approximately N reads per output file. <details><summary>Help</summary><small>https://gatk.broadinstitute.org/hc/en-us/articles/360041849771-SplitSamByNumberOfReads-Picard</small></details> | `integer` | 1000000 |  |  |
 
 ## Optional modules
 

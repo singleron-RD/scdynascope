@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an idea for the singleron-RD/scrna pipeline
+description: Suggest an idea for the singleron-RD/scdynascope pipeline
 labels: enhancement
 body:
   - type: textarea

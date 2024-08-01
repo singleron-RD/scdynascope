@@ -1,6 +1,6 @@
 {
-    "name": "singleron-RD/scrna",
-    "homePage": "https://github.com/singleron-RD/scrna",
+    "name": "singleron-RD/scdynascope",
+    "homePage": "https://github.com/singleron-RD/scdynascope",
     "repos": {
         "https://github.com/nf-core/modules.git": {
             "modules": {

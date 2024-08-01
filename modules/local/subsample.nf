@@ -7,12 +7,7 @@ process SUBSAMPLE {
     container "biocontainers/pysam:0.22.1--py38h15b938a_0"
 
     input:
-<<<<<<< HEAD
-    tuple val(meta), path(bam)
-    path barcodes
-=======
     tuple val(meta), path(bam), path(barcodes)
->>>>>>> upstream/master
 
     output:
     tuple val(meta), path("*.json"), emit: json
