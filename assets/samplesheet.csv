@@ -1,2 +1,2 @@
 sample,fastq_1,fastq_2
-Sample_X,https://github.com/singleron-RD/scdynascope_test_data/raw/master/GEXSCOPE-V2-human/test_R1.fastq.gz,https://github.com/singleron-RD/scdynascope_test_data/raw/master/GEXSCOPE-V2/test_R2.fastq.gz
+U937,https://github.com/singleron-RD/scdynascope_test_data/blob/main/test_R1.fastq.gz,https://github.com/singleron-RD/scdynascope_test_data/blob/main/test_R2.fastq.gz

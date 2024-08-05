@@ -5,7 +5,7 @@
 
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below. An example `samplesheet.csv` can be found in the [test data repository](https://github.com/singleron-RD/scdynascope_test_data/tree/master/DYNASCOPE-human).
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below. An example `samplesheet.csv` can be found in the [test data repository](https://github.com/singleron-RD/scdynascope_test_data/tree/main).
 
 ```bash
 --input '[path to samplesheet file]'
