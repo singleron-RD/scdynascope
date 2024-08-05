@@ -42,18 +42,18 @@ class Conversion:
     
     def run(self):
         # Adding tags and get conversion positions
-        self.df_conv = self.addTags()
-        self.df_cover = self.CountReadCoverPerConvPos()
+        self.df_conv = self.add_tags()
+        self.df_cover = self.count_read_cover_per_conv_pos()
         self.conv_candidate()
 
 
     def run_cmd(self, cmd):
         subprocess.call(' '.join(cmd), shell=True)
 
-    def createTag(self, d):
+    def create_tag(self, d):
         return ''.join([''.join(key) + str(d[key]) + ';' for key in d.keys()])[:-1]
 
-    def getTypes(self, contype):
+    def get_types(self, contype):
         rdict = {'A':'T','T':'A','G':'C','C':'G'}
         ftype = (contype[0].lower(), contype[1].upper())
         rtype = (rdict[contype[0]].lower(), rdict[contype[1]].upper())
@@ -66,7 +66,7 @@ class Conversion:
         return False
                 
 
-    def convInRead(self, read):
+    def conv_in_read(self, read):
         tC_loc, aG_loc = [], []
         total_content = {'a': 0, 'c': 0, 'g': 0, 't': 0}
         specific_conversions = {}
@@ -98,7 +98,7 @@ class Conversion:
             total_content[base] += refseq.count(base)
         
         if self.check_md(read.get_tag('MD')):
-            ftype, rtype = self.getTypes(self.conversion_type)
+            ftype, rtype = self.get_types(self.conversion_type)
             for pair in read.get_aligned_pairs(with_seq=True):
                 try:
                     if pair[0] is not None and pair[1] is not None and pair[2] is not None:
@@ -112,8 +112,8 @@ class Conversion:
                 except (UnicodeDecodeError, KeyError):
                     continue
             
-        SC_tag = self.createTag(specific_conversions)
-        TC_tag = self.createTag(total_content)
+        SC_tag = self.create_tag(specific_conversions)
+        TC_tag = self.create_tag(total_content)
 
         if len(tC_loc) == 0:
             tC_loc.append(0)
@@ -123,7 +123,7 @@ class Conversion:
         return SC_tag, TC_tag, tC_loc, aG_loc
 
     
-    def addTags(self):
+    def add_tags(self):
         site_depth = defaultdict(int)  ## conversion depth for each site
         save = pysam.set_verbosity(0)
         bamfile = pysam.AlignmentFile(self.bam, 'rb')
@@ -144,7 +144,7 @@ class Conversion:
                 if read.get_tag('CB') not in self.cells:
                     continue
 
-                tags = self.convInRead(read)
+                tags = self.conv_in_read(read)
                 if tags==0: 
                     mod_bamfile.write(read)
                     continue
@@ -204,14 +204,13 @@ class Conversion:
         # output
         df.to_csv(self.outcsv)
 
-
     
-    def CountReadCoverPerConvPos(self):
+    def count_read_cover_per_conv_pos(self):
         bamfile = self.outbam
         df = self.df_conv
-        CoverofPosWithConvs = {}
+        cover_of_pos_with_convs = {}
         if df.shape[0] == 0:
-            return CoverofPosWithConvs
+            return cover_of_pos_with_convs
         df = df.reset_index()
         df[['chrom', 'pos']] = df['index'].str.split('+', expand=True)
         df['pos'] = df['pos'].astype(int)
@@ -224,17 +223,17 @@ class Conversion:
         save = pysam.set_verbosity(0)
         bam = pysam.AlignmentFile(bamfile, 'rb')
         pysam.set_verbosity(save)
-        ContigLocs = df.groupby('chrom')['pos'].apply(list).to_dict()
-        for key in ContigLocs.keys():
-            ContigLocs[key] = sorted(ContigLocs[key])
-            CoverofPosWithConvs[key] = {}
-            for key2 in ContigLocs[key]:
+        contig_locs = df.groupby('chrom')['pos'].apply(list).to_dict()
+        for key in contig_locs.keys():
+            contig_locs[key] = sorted(contig_locs[key])
+            cover_of_pos_with_convs[key] = {}
+            for key2 in contig_locs[key]:
                 try:
-                    CoverofPosWithConvs[key][key2] = bam.count(key, key2, key2+1)
+                    cover_of_pos_with_convs[key][key2] = bam.count(key, key2, key2+1)
                 except ValueError:
                     continue
         bam.close()
-        return CoverofPosWithConvs
+        return cover_of_pos_with_convs
 
 
 

@@ -97,7 +97,8 @@ class Substitution:
                 fcov = is_forward[y]*100 / float(fbase) if float(fbase)>0 else 0
                 rcov = is_reverse[subdict[y]]*100 / float(rbase) if float(rbase)>0 else 0
                 self.report_dict[outdict[y]] = fcov + rcov
-                outw.write(outdict[y]+'\t'+"%.3f" % fcov+'\t'+"%.3f" % rcov+'\n')
+                #outw.write(outdict[y]+'\t'+"%.3f" % fcov+'\t'+"%.3f" % rcov+'\n')
+                outw.write(f"{outdict[y]}\t{fcov:.3f}\t{rcov:.3f}\n")
 
         outw.close()
 

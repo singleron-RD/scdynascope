@@ -4,7 +4,7 @@ import pandas as pd
 import argparse
 
 
-class Conversion_merge:
+class ConversionMerge:
     """
     Merge conversion csv files and select snp candidates:
     """
@@ -72,4 +72,4 @@ def get_opts_conversion():
 
 if __name__ == '__main__':
     args=get_opts_conversion()
-    Conversion_merge(args).run()
+    ConversionMerge(args).run()

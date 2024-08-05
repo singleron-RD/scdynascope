@@ -7,7 +7,7 @@ import numpy as np
 import utils
 from __init__ import ASSAY
 
-class Labeled_summary:
+class LabeledSummary:
     """
     Features
     - Labeled summary of per gene and per cell. 
@@ -75,4 +75,4 @@ def get_opts_labeled_summary():
 
 if __name__ == '__main__':
     args=get_opts_labeled_summary()
-    Labeled_summary(args).run()
+    LabeledSummary(args).run()
