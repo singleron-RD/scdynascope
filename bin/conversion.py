@@ -67,7 +67,7 @@ class Conversion:
                 
 
     def conv_in_read(self, read):
-        tC_loc, aG_loc = [], []
+        tc_loc, ag_loc = [], []
         total_content = {'a': 0, 'c': 0, 'g': 0, 't': 0}
         specific_conversions = {}
         specific_conversions[('c', 'A')] = 0
@@ -105,22 +105,22 @@ class Conversion:
                         if str(pair[2]).islower() and not read.query_qualities[pair[0]] < self.qual:
                             specific_conversions[(pair[2], read.seq[pair[0]])] += 1
                             if (pair[2], read.seq[pair[0]]) == ftype:
-                                tC_loc.append(pair[1])
+                                tc_loc.append(pair[1])
                             if (pair[2], read.seq[pair[0]]) == rtype:
-                                aG_loc.append(pair[1])
+                                ag_loc.append(pair[1])
 
                 except (UnicodeDecodeError, KeyError):
                     continue
             
-        SC_tag = self.create_tag(specific_conversions)
-        TC_tag = self.create_tag(total_content)
+        sc_tag = self.create_tag(specific_conversions)
+        tc_tag = self.create_tag(total_content)
 
-        if len(tC_loc) == 0:
-            tC_loc.append(0)
-        if len(aG_loc) == 0:
-            aG_loc.append(0)
+        if len(tc_loc) == 0:
+            tc_loc.append(0)
+        if len(ag_loc) == 0:
+            ag_loc.append(0)
         
-        return SC_tag, TC_tag, tC_loc, aG_loc
+        return sc_tag, tc_tag, tc_loc, ag_loc
 
     
     def add_tags(self):
