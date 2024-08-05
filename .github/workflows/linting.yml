@@ -28,5 +28,5 @@ jobs:
         run: pip install pre-commit
 
       - name: Run pre-commit
-        run: SKIP=parameter_docs pre-commit run --all-files
+        run: SKIP=parameter_docs pre-commit run --all-files -v
 
