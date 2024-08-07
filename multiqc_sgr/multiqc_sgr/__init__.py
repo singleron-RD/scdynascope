@@ -13,11 +13,7 @@ def multiqc_sgr_config():
         "scdynascope/median_gene": {
             "fn": "*scdynascope.median_gene.json",
         },
-        "scdynascope/substitution": {
-            "fn": "*scdynascope.substitution.json"
-        },
-        "scdynascope/tor": {
-            "fn": "*scdynascope.tor.json"
-        },
+        "scdynascope/substitution": {"fn": "*scdynascope.substitution.json"},
+        "scdynascope/tor": {"fn": "*scdynascope.tor.json"},
     }
     config.update_dict(config.sp, sgr_search_patterns)

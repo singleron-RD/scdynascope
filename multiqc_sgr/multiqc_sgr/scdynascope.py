@@ -3,7 +3,7 @@ import logging
 from collections import defaultdict
 
 from multiqc.modules.base_module import BaseMultiqcModule, ModuleNoSamplesFound
-from multiqc.plots import linegraph, bargraph, box
+from multiqc.plots import bargraph, box, linegraph
 
 # Initialise the logger
 log = logging.getLogger("multiqc")
@@ -30,36 +30,41 @@ class MultiqcModule(BaseMultiqcModule):
         substitution_data = self.parse_json(self.name, "substitution")
         tor_data = self.parse_json(self.name, "tor")
 
-        if all(len(x) == 0 for x in [stat_data, umi_count_data, saturation_data, median_gene_data, 
-                                    substitution_data, tor_data]):
+        if all(
+            len(x) == 0
+            for x in [stat_data, umi_count_data, saturation_data, median_gene_data, substitution_data, tor_data]
+        ):
             raise ModuleNoSamplesFound
 
         # Basic Stats Table
         self.general_stats_table(stat_data)
 
         # barcode rank plot
-        self.add_section(name="Barcode Rank", anchor="scdynascope_barcode_rank", plot=self.barcode_rank_plot(umi_count_data))
+        self.add_section(
+            name="Barcode Rank", anchor="scdynascope_barcode_rank", plot=self.barcode_rank_plot(umi_count_data)
+        )
 
         # subsample
         if saturation_data:
-            self.add_section(name="Saturation", anchor="scdynascope_subsample", plot=self.saturation_plot(saturation_data))
+            self.add_section(
+                name="Saturation", anchor="scdynascope_subsample", plot=self.saturation_plot(saturation_data)
+            )
         if median_gene_data:
             self.add_section(
                 name="Median Gene", anchor="scdynascope_median_gene", plot=self.median_gene_plot(median_gene_data)
             )
 
-        # substitution    
-        self.add_section(name="Substitution Rate", anchor="scdynascope_substitution", 
-                        plot=self.substitution_plot(substitution_data))
+        # substitution
+        self.add_section(
+            name="Substitution Rate", anchor="scdynascope_substitution", plot=self.substitution_plot(substitution_data)
+        )
 
         if tor_data:
-            self.add_section(name="Turn-over Rate", anchor="scdynascope_labeled_summary", 
-                        plot=self.tor_plot(tor_data))
+            self.add_section(name="Turn-over Rate", anchor="scdynascope_labeled_summary", plot=self.tor_plot(tor_data))
 
         # Superfluous function call to confirm that it is used in this module
         # Replace None with actual version if it is available
         self.add_software_version(None)
-
 
     def parse_json(self, assay, seg):
         data_dict = defaultdict(dict)
@@ -298,25 +303,25 @@ class MultiqcModule(BaseMultiqcModule):
             "title": "scdynascope: Substitution Rate",
             "ylab": "Substitution Rate %",
             "xlab": "Type",
-            "stacking":  "group" ,
+            "stacking": "group",
             "cpswitch": False,
-        }      
+        }
         cats = [
             {
-                "A_to_C": {'color': '#c2e699'},
-                "A_to_G": {'color': '#78c679'},
-                "A_to_T": {'color': '#238443'},
-                "C_to_A": {'color': '#fbb4b9'},
-                "C_to_G": {'color': '#f768a1'},
-                "C_to_T": {'color': '#ae017e'},
-                "G_to_A": {'color': '#bdd7e7'},
-                "G_to_C": {'color': '#6baed6'},
-                "G_to_T": {'color': '#2171b5'},
-                "T_to_A": {'color': '#fcae91'},
-                "T_to_C": {'color': '#fb6a4a'},
-                "T_to_G": {'color': '#cb181d'},
+                "A_to_C": {"color": "#c2e699"},
+                "A_to_G": {"color": "#78c679"},
+                "A_to_T": {"color": "#238443"},
+                "C_to_A": {"color": "#fbb4b9"},
+                "C_to_G": {"color": "#f768a1"},
+                "C_to_T": {"color": "#ae017e"},
+                "G_to_A": {"color": "#bdd7e7"},
+                "G_to_C": {"color": "#6baed6"},
+                "G_to_T": {"color": "#2171b5"},
+                "T_to_A": {"color": "#fcae91"},
+                "T_to_C": {"color": "#fb6a4a"},
+                "T_to_G": {"color": "#cb181d"},
             }
-        ]  
+        ]
         return bargraph.plot(substitution_data, cats=cats, pconfig=pconfig)
 
     def tor_plot(self, tor_data):

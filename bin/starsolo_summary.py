@@ -6,7 +6,7 @@ from collections import defaultdict
 
 import pandas as pd
 import utils
-from __init__ import ASSAY,BARCODE_FILE_NAME,MATRIX_FILE_NAME
+from __init__ import ASSAY, BARCODE_FILE_NAME, MATRIX_FILE_NAME
 
 MAX_CELL = 2 * 10**5
 
