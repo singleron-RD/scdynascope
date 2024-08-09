@@ -19,7 +19,7 @@ class ConversionMerge:
         self.snp_threshold = args.snp_threshold
 
         # set
-        self.csvlist = args.csvlist.strip().split(",")
+        self.csvlist = args.csvlist
         self.df_list = []
         self.df_conv = pd.DataFrame()
 
@@ -52,7 +52,7 @@ class ConversionMerge:
 
 def get_opts_conversion():
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument("--csvlist", required=True)
+    parser.add_argument("--csvlist", required=True, nargs="+")
     parser.add_argument("--sample", required=True)
     parser.add_argument("--outdir", required=True)
     parser.add_argument(

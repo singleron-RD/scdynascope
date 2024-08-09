@@ -13,8 +13,8 @@ process CONVERSION_MERGE {
 
     output:
     tuple val(meta), path("${meta.id}.PosTag.bam") , emit: conversion_bam
-    tuple val(meta), path("*.PosTag.csv")          , emit: conversion_csv
-    tuple val(meta), path("*.snp.csv")             , emit: conversion_snp
+    tuple val(meta), path("${meta.id}.PosTag.csv") , emit: conversion_csv
+    tuple val(meta), path("${meta.id}.snp.csv")    , emit: conversion_snp
     path "versions.yml"                            , emit: versions
 
     when:
@@ -22,7 +22,7 @@ process CONVERSION_MERGE {
 
     script:
     def args = task.ext.args ?: ''
-    def csvList = input_csvs.join(',')
+    //def csvList = input_csvs.join(',')
 
     """
 
@@ -34,7 +34,7 @@ process CONVERSION_MERGE {
     
 
     conversion_merge.py \\
-        --csvlist $csvList \\
+        --csvlist ${input_csvs} \\
         --sample ${meta.id} \\
         --outdir ./ \\
         --snp_threshold ${snp_threshold} \\
