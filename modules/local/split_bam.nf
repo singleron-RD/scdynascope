@@ -25,6 +25,7 @@ process SPLIT_BAM {
 
     """
     total_reads="\$(grep 'Number of input reads |' ${log_final} | awk '{print \$6}')"
+    total_reads=\$(( \${total_reads} > ${split_n_reads} ? \${total_reads} : ${split_n_reads} ))
 
     mkdir ${bam_chunks_dir}
 
@@ -33,7 +34,7 @@ process SPLIT_BAM {
         I=${bam_sorted} \\
         O=${bam_chunks_dir} \\
         OUT_PREFIX=$prefix \\
-        SPLIT_TO_N_READS=${split_n_reads}  \\
+        SPLIT_TO_N_READS=${split_n_reads} \\
         TOTAL_READS_IN_INPUT=\$total_reads
 
     cat <<-END_VERSIONS > versions.yml
