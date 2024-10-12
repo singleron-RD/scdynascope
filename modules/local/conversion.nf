@@ -2,8 +2,8 @@ process CONVERSION {
     tag "$meta.id"
     label 'process_high'
 
-    conda 'conda-forge::pandas==2.2.1 bioconda::pysam==0.22.1 bioconda::samtools=1.20'
-    container "biocontainers/pandas:2.2.1 biocontainers/pysam:0.22.1--py38h15b938a_0 biocontainers/samtools:1.20--h50ea8bc_0"
+    conda 'conda-forge::pandas==2.2.1 bioconda::pysam==0.22.1'
+    container "raulee/sgr-python-samtools"
 
     input:
     tuple val(meta), path(bam), path(bclist)
@@ -34,14 +34,7 @@ process CONVERSION {
         --outdir ${bam_chunks_dir} \\
         --conversion_type ${conversion_type} \\
         --basequalilty ${basequalilty}
-
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
-    END_VERSIONS
-
-
+    
     """
 
 }
