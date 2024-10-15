@@ -2,8 +2,9 @@ process LABELED_SUMMARY {
     tag "$meta.id"
     label 'process_single'
 
-    conda 'conda-forge::scanpy==1.10.2 conda-forge::numpy==1.26.4'
-    container "raulee/scanpy-numpy"
+    conda 'conda-forge::scanpy==1.10.2'
+    container "raulee/sgr-scanpy"
+    containerOptions '--env HOME=/tmp'
 
     input:
     tuple val(meta), path(labeled_dir), path(filtered_dir)
@@ -22,6 +23,8 @@ process LABELED_SUMMARY {
     def args = task.ext.args ?: ''
     
     """
+
+
     labeled_summary.py \\
         --outdir ./ \\
         --sample ${meta.id} \\
