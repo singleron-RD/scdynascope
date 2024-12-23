@@ -44,7 +44,6 @@ Genome files and parameters.
 
 | Parameter | Description | Type | Default | Required | Hidden |
 |-----------|-----------|-----------|-----------|-----------|-----------|
-| `star_cpus` | max cpus to run STAR | `integer` | 16 |  |  |
 | `soloFeatures` | Quantification of different transcriptomic features. <details><summary>Help</summary><small>https://github.com/alexdobin/STAR/issues/1460  <br>--soloFeatures SJ quantifies splice junctions by calculating per-cell counts ofreads that are spliced across junctions. It will count spliced reads across annotatedand unannotated junctions, thus allowing analysis of inter-cell alternative splicing and detection of novel splice isoforms.  <br>--soloFeatures Velocyto performs separate counting for spliced, unsplicedand ambiguous reads, similar to the Velocyto tool . Its output can be usedin the RNA-velocity analyses to dissect the transcriptional dynamics of the cells.  </small></details>| `string` | GeneFull_Ex50pAS |  |  |
 | `outFilterMatchNmin` | Alignment will be output only if the number of matched bases is higher than or equal to this value. <details><summary>Help</summary><small>Use default 50 to filter potential short prime sequences.</small></details>| `integer` | 50 |  |  |
 | `soloCellFilter` | Cell-calling method. <details><summary>Help</summary><small>https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md#cell-filtering-calling</small></details>| `string` | EmptyDrops_CR 3000 0.99 10 45000 90000 500 0.01 20000 0.001 10000 |  |  |
@@ -67,6 +66,7 @@ Genome files and parameters.
 | `min_cells` | Calculate the minimum number of cells required for TOR of a gene. | `integer` | 10 |  |  |
 | `min_genes` | Calculate the minimum number of genes required for TOR of a cell. | `integer` | 10 |  |  |
 | `split_n_reads` | Split to have approximately N reads per output file. <details><summary>Help</summary><small>https://gatk.broadinstitute.org/hc/en-us/articles/360041849771-SplitSamByNumberOfReads-Picard</small></details> | `integer` | 1000000 |  |  |
+| `all_type_plot` | Plot subsititution rate for all conversion type. | `boolean` | false |  |  |
 
 ## Optional modules
 
@@ -83,7 +83,7 @@ Set the top limit for requested resources for any single job.
 
 | Parameter | Description | Type | Default | Required | Hidden |
 |-----------|-----------|-----------|-----------|-----------|-----------|
-| `max_cpus` | Maximum number of CPUs that can be requested for any single job. <details><summary>Help</summary><small>Use to set an upper-limit for the CPU requirement for each process. Should be an integer e.g. `--max_cpus 1`</small></details>| `integer` | 64 |  | True |
+| `max_cpus` | Maximum number of CPUs that can be requested for any single job. <details><summary>Help</summary><small>Use to set an upper-limit for the CPU requirement for each process. Should be an integer e.g. `--max_cpus 1`</small></details>| `integer` | 16 |  | True |
 | `max_memory` | Maximum amount of memory that can be requested for any single job. <details><summary>Help</summary><small>Use to set an upper-limit for the memory requirement for each process. Should be a string in the format integer-unit e.g. `--max_memory '8.GB'`</small></details>| `string` | 128.GB |  | True |
 | `max_time` | Maximum amount of time that can be requested for any single job. <details><summary>Help</summary><small>Use to set an upper-limit for the time requirement for each process. Should be a string in the format integer-unit e.g. `--max_time '2.h'`</small></details>| `string` | 240.h |  | True |
 
@@ -108,7 +108,7 @@ Less common options for the pipeline, typically set in a config file.
 |-----------|-----------|-----------|-----------|-----------|-----------|
 | `help` | Display help text. | `boolean` |  |  | True |
 | `version` | Display version and exit. | `boolean` |  |  | True |
-| `publish_dir_mode` | Method used to save pipeline results to output directory. <details><summary>Help</summary><small>The Nextflow `publishDir` option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See [Nextflow docs](https://www.nextflow.io/docs/latest/process.html#publishdir) for details.</small></details>| `string` | symlink |  | True |
+| `publish_dir_mode` | Method used to save pipeline results to output directory. <details><summary>Help</summary><small>The Nextflow `publishDir` option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See [Nextflow docs](https://www.nextflow.io/docs/latest/process.html#publishdir) for details.</small></details>| `string` | copy |  | True |
 | `email_on_fail` | Email address for completion summary, only when pipeline fails. <details><summary>Help</summary><small>An email address to send a summary email to when the pipeline is completed - ONLY sent if the pipeline does not exit successfully.</small></details>| `string` |  |  | True |
 | `plaintext_email` | Send plain-text email instead of HTML. | `boolean` |  |  | True |
 | `max_multiqc_email_size` | File size limit when attaching MultiQC reports to summary emails. | `string` | 25.MB |  | True |
